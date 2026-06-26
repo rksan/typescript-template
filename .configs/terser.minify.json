@@ -1,0 +1,12 @@
+{
+  "compress": {
+    "defaults": true
+  },
+  "format": {
+    "comments": "some"
+  },
+  "sourceMap": {
+    "content": "inline",
+    "url": "inline"
+  }
+}
