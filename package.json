@@ -3,16 +3,19 @@
   "version": "0.0.1",
   "scripts": {
     "tsc:init": "tsc --init",
-    "pretest": "rm -rf .nyc_output && rm -rf tsconfig.tsnode.json && tsc -p ./tsconfig.json --showConfig > tsconfig.tsnode.json",
+    "pretest": "rm -rf .nyc_output && rm -rf tsconfig.tsnode.json && tsc -p ./tsconfig.build.json --showConfig > tsconfig.tsnode.json",
     "test": "nyc ts-mocha --paths -p ./tsconfig.tsnode.json test/**/*.spec.ts",
     "precoverage": "rm -rf coverage && mkdir coverage",
     "coverage": "npm run test && nyc report --reporter=lcovonly",
-    "prebuild:ts": "rm -rf dist",
-    "build:ts": "tsc -d -p ./tsconfig.build.json && tsc-alias -p ./tsconfig.build.json",
-    "prebuild:browserify": "rm -rf browser",
-    "build:browserify": "node ./node_modules/browserify/bin/cmd.js ./dist/index.js -o ./browser/object-diff.js",
-    "build:browserify:min": "node ./node_modules/browserify/bin/cmd.js ./dist/index.js --debug | terser -c -m --source-map \"content=inline,url=inline\" -o ./browser/object-diff.min.js",
-    "build": "npm run build:ts"
+    "prebuild:dts": "rm -rf dist",
+    "build:dts": "tsc -p ./tsconfig.build-type.json && tsc-alias -p ./tsconfig.build-type.json",
+    "build:ts": "tsc -p ./tsconfig.build.json && tsc-alias -p ./tsconfig.build.json",
+    "build:cjs": "npm run build:dts && npm run build:ts",
+    "prebuild:browser": "rm -rf browser",
+    "build:browser": "node ./node_modules/browserify/bin/cmd.js ./dist/index.js -o ./browser/bundle.js",
+    "build:browser:min": "node ./node_modules/browserify/bin/cmd.js ./dist/index.js --debug | terser --config-file ./terser.minify.json -o ./browser/bundle.min.js",
+    "build:mjs": "npm run build:browser && npm run build:browser:min",
+    "build": "npm run build:cjs && npm run build:mjs"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",

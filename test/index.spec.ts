@@ -6,6 +6,6 @@ import { sample } from "@/index";
 
 describe("index.ts", () => {
   it("sample()", () => {
-    assert.isOk(sample());
+    assert.isOk(sample("args"));
   });
 });

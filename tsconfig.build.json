@@ -9,6 +9,7 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "declaration": false,
-    "removeComments": true
+    "removeComments": true,
+    "sourceMap": false
   }
 }
